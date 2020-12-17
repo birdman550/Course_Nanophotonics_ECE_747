@@ -6,4 +6,5 @@ I have used the terms Home Work (HW) and Problem Set (PS) interchangably. Apolog
 There are a total of 3 HW Problem Sets, 1 In-Class Presentation, and 1 Final Project.
 
 Final Project topic: Optical Tweezers
+
 In-Class Presentation topic: Mach-Zehnder Interferometer
