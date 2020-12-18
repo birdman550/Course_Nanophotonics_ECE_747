@@ -1,0 +1,41 @@
+# scriptfile: tweezer_position.lsf
+# 
+# description: This script calculates
+#   the force on a rod as a function
+#   of rod x position relative to the 
+#   beam focal point.
+load("tweezer");
+save("temp");
+
+source_offset=0;            # source position
+pos=linspace(-1e-6,0.5e-6,25);      # partical X position relative to beam focus
+Force=matrix(length(pos),3);      # initialize Force variable
+
+for (i=1:length(pos)) {
+
+  switchtolayout;
+  # set particle position. (0,0) corresponds to focal point
+  select("circle");
+  set("x", 0);
+  set("y",-5e-9);
+
+  # set beam focus.  correct for source position offset
+  select("beam");
+  set("distance from focus",pos(i) + source_offset);  
+
+  # run in non-graphical mode
+  run;                    
+
+  # get the force
+  F = getresult("optical_force_MST","F_total");  
+  f = F.f;
+  SP = sourcepower(f);  
+  Force(i,1:3) = F.F_total/SP;  # normalize to source power. Important in this case becuase different beam size contains different amounts of power
+}
+
+# plot results
+plot(pos*1e6,Force(:,1),"X position (um)","Force (N/W)");
+legend("Fx");
+linewidth=2";
+
+load("tweezer");
